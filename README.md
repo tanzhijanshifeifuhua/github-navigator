@@ -50,10 +50,11 @@ python app.py
 
 ## 📖 详细文档
 
-- [快速部署指南](快速部署.md) - 5 分钟快速部署
-- [完整部署指南](部署指南.md) - 多种部署方式详解
-- [功能说明](功能说明.md) - 所有功能介绍
-- [使用说明](使用说明.txt) - 日常使用指南
+- [项目结构说明](项目结构说明.md) - 完整的项目结构
+- [快速部署指南](docs/快速部署.md) - 5 分钟快速部署
+- [完整部署指南](docs/部署指南.md) - 多种部署方式详解
+- [功能说明](docs/功能说明.md) - 所有功能介绍
+- [使用说明](docs/使用说明.txt) - 日常使用指南
 
 ## 🛠️ 安装步骤
 
@@ -74,6 +75,7 @@ pip install -r requirements.txt
 运行爬虫脚本获取 GitHub 项目数据：
 
 ```bash
+cd scripts
 python crawler.py
 ```
 
@@ -82,6 +84,7 @@ python crawler.py
 ### 2. 添加中文描述
 
 ```bash
+cd scripts
 python add_chinese_descriptions.py
 ```
 
@@ -91,6 +94,15 @@ python add_chinese_descriptions.py
 
 ```bash
 python app.py
+```
+
+或使用快速启动脚本：
+```bash
+# Windows
+scripts\start.bat
+
+# Linux/Mac
+./scripts/start.sh
 ```
 
 然后在浏览器访问：http://localhost:5000
@@ -107,7 +119,7 @@ python app.py
 
 ### 修改分类模块
 
-编辑 `crawler.py` 中的 `categories` 字典：
+编辑 `scripts/crawler.py` 中的 `categories` 字典：
 
 ```python
 self.categories = {
@@ -119,7 +131,7 @@ self.categories = {
 
 ### 修改搜索条件
 
-在 `crawler.py` 的 `__main__` 部分修改查询条件：
+在 `scripts/crawler.py` 的 `__main__` 部分修改查询条件：
 
 ```python
 queries = [
@@ -131,26 +143,25 @@ queries = [
 
 ### 自定义中文描述
 
-编辑 `add_chinese_descriptions.py` 中的 `specific_descriptions` 字典。
+编辑 `scripts/add_chinese_descriptions.py` 中的 `specific_descriptions` 字典。
 
 ## 📊 项目结构
 
 ```
-.
-├── app.py                      # Flask Web 应用
-├── crawler.py                  # 爬虫脚本
-├── add_chinese_descriptions.py # 中文描述生成
-├── requirements.txt            # Python 依赖
-├── Dockerfile                  # Docker 配置
-├── docker-compose.yml          # Docker Compose 配置
-├── vercel.json                 # Vercel 部署配置
-├── templates/
-│   └── index.html             # 网页模板
-├── static/
-│   ├── style.css              # 样式文件
-│   └── script.js              # JavaScript 脚本
-└── github_projects.json       # 数据文件（运行后生成）
+github-navigator/
+├── app.py                    # Flask 主应用
+├── requirements.txt          # Python 依赖
+├── github_projects.json      # 项目数据（1158个项目）
+├── templates/               # HTML 模板
+├── static/                  # 静态资源（CSS/JS）
+├── scripts/                 # 脚本文件（爬虫、部署等）
+├── config/                  # 配置文件（Docker、Nginx等）
+├── docs/                    # 文档
+├── tests/                   # 测试文件
+└── .github/                 # GitHub Actions
 ```
+
+详细结构请查看 [项目结构说明.md](项目结构说明.md)
 
 ## 🚀 部署选项
 
@@ -160,7 +171,7 @@ queries = [
 - **Docker**: 容器化部署
 - **Linux 服务器**: 传统部署
 
-详见 [部署指南.md](部署指南.md)
+详见 [部署指南.md](docs/部署指南.md)
 
 ## ⚙️ 环境变量
 

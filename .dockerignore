@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+*.egg-info/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Git
+.git/
+.gitignore
+
+# 测试和临时文件
+*.log
+test_*.py
+check_*.py
+translate_test.py
+simple_test.py
+final_report.py
+
+# 文档
+*.md
+!README.md
+
+# 其他
+.env
+.DS_Store
+Thumbs.db

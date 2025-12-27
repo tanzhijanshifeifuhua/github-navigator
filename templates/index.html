@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub 项目中文分类导航</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <!-- 侧边导航栏 -->
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h3>📑 分类目录</h3>
+            <button class="toggle-sidebar" id="toggleSidebar">✕</button>
+        </div>
+        <ul class="category-nav">
+            {% for category, projects in data.categories.items() %}
+            <li>
+                <a href="#{{ category }}" class="nav-link">
+                    <span class="nav-category">{{ category }}</span>
+                    <span class="nav-count">{{ projects|length }}</span>
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+    </nav>
+
+    <!-- 移动端菜单按钮 -->
+    <button class="mobile-menu-btn" id="mobileMenuBtn">
+        <span>☰</span>
+    </button>
+
+    <header>
+        <div class="container">
+            <h1>🚀 GitHub 项目中文分类导航</h1>
+            <p class="subtitle">发现优质开源项目，按中文模块精准分类</p>
+            <div class="stats">
+                <span>📊 总项目数: <strong>{{ data.total_projects }}</strong></span>
+                <span>🕐 更新时间: {{ data.updated_at[:19] }}</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="container main-content">
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="🔍 搜索项目名称或描述...">
+        </div>
+
+        <div class="categories">
+            {% for category, projects in data.categories.items() %}
+            <div class="category-section" id="{{ category }}" data-category="{{ category }}">
+                <h2 class="category-title collapsible">
+                    <span class="collapse-icon">▼</span>
+                    {{ category }}
+                    <span class="count">({{ projects|length }})</span>
+                </h2>
+                
+                <div class="projects-grid category-content">
+                    {% for project in projects %}
+                    <div class="project-card" data-name="{{ project.name|lower }}" data-desc="{{ (project.description_cn if project.description_cn else project.description)|lower if project.description or project.description_cn else '' }}">
+                        <h3 class="project-name">
+                            <a href="{{ project.url }}" target="_blank">{{ project.name }}</a>
+                        </h3>
+                        <p class="project-desc">
+                            {% if project.description_cn %}
+                                {{ project.description_cn }}
+                            {% elif project.description %}
+                                {{ project.description }}
+                            {% else %}
+                                暂无描述
+                            {% endif %}
+                        </p>
+                        <div class="project-meta">
+                            <span class="stars">⭐ {{ project.stars }}</span>
+                            <span class="forks">🔱 {{ project.forks }}</span>
+                            {% if project.language %}
+                            <span class="language">💻 {{ project.language }}</span>
+                            {% endif %}
+                        </div>
+                        {% if project.topics %}
+                        <div class="topics">
+                            {% for topic in project.topics[:5] %}
+                            <span class="topic-tag">{{ topic }}</span>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- 回到顶部按钮 -->
+        <button class="back-to-top" id="backToTop" title="回到顶部">↑</button>
+    </main>
+
+    <footer>
+        <p>数据来源: GitHub API | 使用 Python + Flask 构建</p>
+    </footer>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

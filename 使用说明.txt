@@ -1,0 +1,86 @@
+========================================
+  GitHub 项目中文分类导航系统
+========================================
+
+✅ 系统已成功部署！
+
+📊 当前状态：
+- 已爬取项目数：1158 个 🎉
+- 中文描述覆盖率：100% ✨
+- 分类模块：前端开发、后端开发、移动开发、数据科学、DevOps、数据库、工具库、游戏开发、区块链、其他
+- Web 服务器：正在运行中
+- 最后更新：2025-12-27
+
+🌐 访问网站：
+打开浏览器访问以下任一地址：
+- http://localhost:5000
+- http://127.0.0.1:5000
+- http://192.168.110.31:5000
+
+📝 快速操作：
+
+1. 【更新数据】
+   双击运行：crawl.bat
+   或命令行：py crawler.py
+   
+   注意：GitHub API 限制每小时 60 次请求（无 Token）
+   建议使用 GitHub Token 提高限制到每小时 5000 次
+
+2. 【添加中文描述】
+   命令行：py add_chinese_descriptions.py
+   自动为所有项目生成详细的中文描述
+
+3. 【启动网站】
+   双击运行：start.bat
+   或命令行：py app.py
+
+4. 【停止服务】
+   在运行窗口按 Ctrl+C
+
+5. 【查看统计】
+   命令行：py final_report.py
+   查看项目统计和热门项目
+
+🔧 自定义配置：
+
+1. 修改分类模块
+   编辑 crawler.py 中的 self.categories 字典
+
+2. 修改搜索条件
+   编辑 crawler.py 底部的 queries 列表
+   当前配置：
+   - 按星标范围搜索（10000+, 5000-10000, 3000-5000）
+   - 按编程语言搜索（Python, JavaScript, TypeScript, Java, Go, Rust, C++, C）
+   - 按技术栈搜索（React, Vue, Django, Flask, Docker, Kubernetes 等）
+
+3. 自定义中文描述
+   编辑 add_chinese_descriptions.py 中的 specific_descriptions 字典
+   添加更多项目的专门描述
+
+4. 使用 GitHub Token（强烈推荐！）
+   在 crawler.py 中设置：
+   crawler = GitHubCrawler(token="your_token_here")
+   
+   获取 Token：
+   - 访问 https://github.com/settings/tokens
+   - 点击 "Generate new token (classic)"
+   - 勾选 "public_repo" 权限
+   - 生成并复制 Token
+
+5. 修改网站样式
+   编辑 static/style.css
+
+📌 注意事项：
+- GitHub API 限制：无 Token 每小时 60 次，有 Token 每小时 5000 次
+- 建议定期运行爬虫更新数据（每天或每周）
+- 数据保存在 github_projects.json 文件中
+- 爬虫会自动去重，避免重复项目
+- 中文描述基于项目名称、描述和标签智能生成
+
+💡 提示：
+- 搜索功能：在网页顶部输入框可实时搜索项目（支持中英文）
+- 项目信息：每个项目卡片显示星标数、Fork 数、编程语言和标签
+- 分类统计：每个分类标题显示该分类的项目数量
+- 中文描述：所有项目都有详细的中文描述，更易理解
+
+🎉 开始使用吧！

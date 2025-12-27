@@ -1,0 +1,22 @@
+[Unit]
+Description=GitHub Navigator Web Application
+After=network.target
+
+[Service]
+Type=notify
+User=www-data
+Group=www-data
+WorkingDirectory=/var/www/github-navigator
+Environment="PATH=/var/www/github-navigator/venv/bin"
+ExecStart=/var/www/github-navigator/venv/bin/gunicorn \
+    --config gunicorn_config.py \
+    app:app
+ExecReload=/bin/kill -s HUP $MAINPID
+KillMode=mixed
+TimeoutStopSec=5
+PrivateTmp=true
+Restart=on-failure
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

@@ -5,6 +5,6 @@ __pycache__/
 .Python
 env/
 venv/
-github_projects.json
 .env
 *.log
+github_projects_test.json

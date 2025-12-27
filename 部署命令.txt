@@ -1,0 +1,121 @@
+========================================
+部署到云服务器 - 快速命令
+========================================
+
+服务器信息：
+- 公网 IP: 123.57.189.237
+- 内网 IP: 172.30.231.1
+
+第 1 步：连接到服务器
+----------------------------------------
+ssh root@123.57.189.237
+
+
+第 2 步：一键部署（推荐）
+----------------------------------------
+curl -fsSL https://raw.githubusercontent.com/tanzhijanshifeifuhua/github-navigator/main/scripts/auto_deploy.sh -o deploy.sh
+chmod +x deploy.sh
+sudo bash deploy.sh
+
+# 然后选择：
+# 输入 1 - Docker 部署（推荐）
+# 输入 2 - 传统部署
+
+
+========================================
+或者：手动 Docker 部署
+========================================
+
+# 安装 Docker
+curl -fsSL https://get.docker.com | sh
+systemctl start docker
+systemctl enable docker
+
+# 安装 Docker Compose
+curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+chmod +x /usr/local/bin/docker-compose
+
+# 克隆项目
+cd /opt
+git clone https://github.com/tanzhijanshifeifuhua/github-navigator.git
+cd github-navigator
+
+# 启动服务
+docker-compose -f config/docker-compose.yml up -d
+
+# 查看日志
+docker-compose -f config/docker-compose.yml logs -f
+
+
+========================================
+访问网站
+========================================
+http://123.57.189.237:5000
+
+（如果配置了 Nginx，也可以访问 http://123.57.189.237）
+
+
+========================================
+常用管理命令
+========================================
+
+# 查看服务状态
+docker ps
+
+# 查看日志
+docker-compose -f /opt/github-navigator/config/docker-compose.yml logs -f
+
+# 重启服务
+docker-compose -f /opt/github-navigator/config/docker-compose.yml restart
+
+# 停止服务
+docker-compose -f /opt/github-navigator/config/docker-compose.yml down
+
+# 更新代码
+cd /opt/github-navigator
+git pull
+docker-compose -f config/docker-compose.yml up -d --build
+
+
+========================================
+测试健康检查
+========================================
+# 在服务器上测试
+curl http://localhost:5000/health
+
+# 在本地测试（需要开放端口）
+curl http://123.57.189.237:5000/health
+
+
+========================================
+更新数据
+========================================
+docker exec -it github-navigator python /app/scripts/crawler.py
+docker exec -it github-navigator python /app/scripts/add_chinese_descriptions.py
+docker-compose -f /opt/github-navigator/config/docker-compose.yml restart
+
+
+========================================
+故障排除
+========================================
+
+# 如果端口被占用
+netstat -tlnp | grep 5000
+kill -9 <PID>
+
+# 如果 Docker 启动失败
+docker logs github-navigator
+
+# 如果无法访问
+# 1. 检查防火墙
+ufw status
+ufw allow 5000
+
+# 2. 检查服务状态
+docker ps -a
+
+# 3. 查看详细日志
+docker-compose -f /opt/github-navigator/config/docker-compose.yml logs
+
+
+========================================
